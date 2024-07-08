@@ -20,7 +20,7 @@ export default function Content({
                   href="/"
                 >
                   <Logo />
-                  <span className="">ACME</span>
+                  <span className="">Seguros y pensiones</span>
                 </Link>
               </div>
               <Sidebar />

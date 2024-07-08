@@ -7,15 +7,11 @@ export default function Sidebar() {
             <nav className="grid items-start px-4 text-sm font-medium">
                 <NavItem href="/">
                     <UsersIcon className="h-4 w-4" />
-                    Users
+                    Créditos
                 </NavItem>
                 <NavItem href="/customers">
                     <UsersIcon className="h-4 w-4" />
                     Clientes
-                </NavItem>
-                <NavItem href="/settings">
-                    <SettingsIcon className="h-4 w-4" />
-                    Settings
                 </NavItem>
             </nav>
         </div>

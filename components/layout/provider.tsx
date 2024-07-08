@@ -1,6 +1,7 @@
 "use client"
 
 import { NextUIProvider } from "@nextui-org/react";
+import { Toaster } from 'sonner'
 
 export default function Providers({
     children
@@ -8,6 +9,9 @@ export default function Providers({
     children: React.ReactNode;
 }) {
     return (
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+            <Toaster richColors position="bottom-center" />
+            {children}
+        </NextUIProvider>
     );
 }

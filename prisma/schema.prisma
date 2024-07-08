@@ -11,32 +11,32 @@ datasource db {
 model cities {
   city_id       Int             @id @default(autoincrement())
   state_id      Int
-  name          String         @db.VarChar(100)
-  states        states?         @relation(fields: [state_id], references: [state_id], onDelete: NoAction, onUpdate: NoAction)
+  name          String          @db.VarChar(100)
+  states        states          @relation(fields: [state_id], references: [state_id], onDelete: NoAction, onUpdate: NoAction)
   neighborhoods neighborhoods[]
 }
 
 model neighborhoods {
   neighborhood_id Int         @id @default(autoincrement())
   city_id         Int
-  name            String     @db.VarChar(100)
-  zipcode         String     @db.VarChar(5)
+  name            String      @db.VarChar(100)
+  zipcode         String      @db.VarChar(5)
   customers       customers[]
-  cities          cities?     @relation(fields: [city_id], references: [city_id], onDelete: NoAction, onUpdate: NoAction)
+  cities          cities      @relation(fields: [city_id], references: [city_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model states {
   state_id Int      @id @default(autoincrement())
   code     String   @db.VarChar(5)
-  name     String  @db.VarChar(32)
+  name     String   @db.VarChar(32)
   cities   cities[]
 }
 
 model affiliates {
-  affiliate_id                               Int         @id @default(autoincrement())
-  name                                       String      @db.VarChar(50)
-  activated                                  Boolean?    @default(true)
-  customers_customers_affiliatesToaffiliates customers[] @relation("customers_affiliatesToaffiliates")
+  affiliate_id Int         @id @default(autoincrement())
+  name         String      @db.VarChar(50)
+  activated    Boolean?    @default(true)
+  customers    customers[]
 }
 
 model banks {
@@ -61,24 +61,24 @@ model credits {
 }
 
 model customers {
-  customer_id                                 Int                  @id @default(autoincrement())
-  user_id                                     Int
-  name                                        String               @db.VarChar(100)
-  last_name                                   String               @db.VarChar(100)
-  phone_number                                String               @db.VarChar(12)
-  neighborhood_id                             Int
-  address                                     String               @db.VarChar(100)
-  payroll_id                                  Int
-  bank_id                                     Int
-  affiliates                                  Int
-  created                                     DateTime?            @default(now()) @db.Timestamp(6)
-  credits                                     credits[]
-  affiliates_customers_affiliatesToaffiliates affiliates           @relation("customers_affiliatesToaffiliates", fields: [affiliates], references: [affiliate_id], onDelete: NoAction, onUpdate: NoAction)
-  banks                                       banks                @relation(fields: [bank_id], references: [bank_id], onDelete: NoAction, onUpdate: NoAction)
-  neighborhoods                               neighborhoods        @relation(fields: [neighborhood_id], references: [neighborhood_id], onDelete: NoAction, onUpdate: NoAction)
-  payrolls                                    payrolls             @relation(fields: [payroll_id], references: [payroll_id], onDelete: NoAction, onUpdate: NoAction)
-  users                                       users                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  reference_contacts                          reference_contacts[]
+  customer_id        Int                  @id @default(autoincrement())
+  user_id            Int
+  name               String               @db.VarChar(100)
+  last_name          String               @db.VarChar(100)
+  phone_number       String               @db.VarChar(12)
+  neighborhood_id    Int
+  address            String               @db.VarChar(100)
+  payroll_id         Int
+  bank_id            Int
+  affiliate_id       Int
+  created            DateTime?            @default(now()) @db.Timestamp(6)
+  credits            credits[]
+  affiliates         affiliates           @relation(fields: [affiliate_id], references: [affiliate_id], onDelete: NoAction, onUpdate: NoAction, map: "customers_affiliates_fkey")
+  banks              banks                @relation(fields: [bank_id], references: [bank_id], onDelete: NoAction, onUpdate: NoAction)
+  neighborhoods      neighborhoods        @relation(fields: [neighborhood_id], references: [neighborhood_id], onDelete: NoAction, onUpdate: NoAction)
+  payrolls           payrolls             @relation(fields: [payroll_id], references: [payroll_id], onDelete: NoAction, onUpdate: NoAction)
+  users              users                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  reference_contacts reference_contacts[]
 }
 
 model payrolls {
