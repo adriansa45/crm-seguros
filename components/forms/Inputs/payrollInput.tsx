@@ -1,26 +1,14 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import { GetPayrolls } from './actions';
+import CacheContext from '@/lib/cacheContext';
 
 export default function PayrollInput({
   PayrollId
 }: { PayrollId?: number | null } = {}) {
-  const [payrolls, setBanks] = useState<
-    { payroll_id: number; name: string }[]
-  >([]);
-
-  useEffect(() => {
-    async function fetchPayrolls() {
-      try {
-        const data = await GetPayrolls();
-        setBanks(data);
-      } catch (error) {
-        console.error('Error fetching payrolls:', error);
-      }
-    }
-    fetchPayrolls();
-  }, []);
+  
+  const { payrolls } = useContext(CacheContext);
 
   return (
     <Autocomplete

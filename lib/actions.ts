@@ -2,7 +2,6 @@
 import prisma from './db';
 
 export async function CreateCustomer(customer: FormData) {
-  console.log(customer);
   const bank = await prisma.banks.findFirst({
     where: {
       name: customer.get('bank_id')?.toString() || ""

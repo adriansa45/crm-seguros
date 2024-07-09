@@ -4,32 +4,37 @@ import { Autocomplete, AutocompleteItem, Input } from '@nextui-org/react';
 import CacheContext from '@/lib/cacheContext';
 
 export default function AddressInput() {
-  const [citySelected, setCity] = useState<number>(0);
-  const [stateSelected, setState] = useState<number>(0);
-  const [neighborhoodSelected, setNeighborhood] = useState<number>(0);
-  const [zipcode, setZipCode] = useState(null);
+  const [stateSelected, setStateSelected] = useState<number | null>(null);
+  const [citySelected, setCitySelected] = useState<number | null>(null);
+  const [zipcode, setZipCode] = useState<string>('');
   
-  const { state, neighborhood, city } = useContext(CacheContext);
+  const { states, cities, neighborhoods } = useContext(CacheContext);
 
   async function fetchCities(stateId: number) {
-    setState(stateId);
-    
+    setStateSelected(stateId);
+    // Aquí podrías agregar la lógica para actualizar las ciudades según el estado seleccionado
   }
 
-  async function fetchNeighborhoods(zipcode: string) {
-    
+  async function fetchNeighborhoods(zip: string) {
+    setZipCode(zip);
+    // Aquí podrías agregar la lógica para actualizar los vecindarios según el código postal
   }
+  useEffect(()=>{
+    console.log(neighborhoods)
+  },[])
+  const filteredCities = cities.filter(c => c.state_id === stateSelected);
+  const filteredNeighborhoods = neighborhoods.filter(n => n.zipcode === zipcode && n.city_id === citySelected);
 
   return (
     <>
       <Autocomplete
         isRequired
         label={'Seleciona un estado'}
-        onSelectionChange={(o) => fetchCities(o as number)}
-        isDisabled={state.length < 1}
+        onSelectionChange={(o) => fetchCities(Number(o))}
+        isDisabled={states.length < 1}
       >
-        {state.map((op) => (
-          <AutocompleteItem key={op.state_id} value={op.name}>
+        {states.map((op) => (
+          <AutocompleteItem key={op.state_id} value={String(op.state_id)}>
             {op.name}
           </AutocompleteItem>
         ))}
@@ -37,30 +42,30 @@ export default function AddressInput() {
       <Autocomplete
         isRequired
         label={'Seleciona un municipio'}
-        onSelectionChange={(o) => setCity(o as number)}
-        isDisabled={city.length < 1}
+        onSelectionChange={(o) => setCitySelected(Number(o))}
+        isDisabled={filteredCities.length < 1}
       >
-        {city.map((op) => (
-          <AutocompleteItem key={op.city_id} value={op.name}>
+        {filteredCities.map((op) => (
+          <AutocompleteItem key={op.city_id} value={String(op.city_id)}>
             {op.name}
           </AutocompleteItem>
         ))}
       </Autocomplete>
       <Input
         isRequired
-        type="zipcode"
+        type="text"
         label="Código Postal"
         onValueChange={(o) => fetchNeighborhoods(o)}
       />
       <Autocomplete
         isRequired
         label={'Seleciona una colonia'}
-        onSelectionChange={(o) => setCity(o as number)}
-        isDisabled={neighborhood.length < 1}
+        onSelectionChange={(o) => console.log(o)}
+        isDisabled={filteredNeighborhoods.length < 1}
         name='neighborhood_id'
       >
-        {neighborhood.map((op) => (
-          <AutocompleteItem key={op.neighborhood_id} value={op.name}>
+        {filteredNeighborhoods.map((op) => (
+          <AutocompleteItem key={op.neighborhood_id} value={String(op.neighborhood_id)}>
             {op.name}
           </AutocompleteItem>
         ))}

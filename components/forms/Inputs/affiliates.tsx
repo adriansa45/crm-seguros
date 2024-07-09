@@ -1,27 +1,14 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import { GetAffiliates } from './actions';
+import CacheContext from '@/lib/cacheContext';
 
 export default function AffiliateInput({
   AffiliateId
 }: { AffiliateId?: number | null } = {}) {
-  const [affiliates, setAffiliates] = useState<
-    { affiliate_id: number; name: string }[]
-  >([]);
 
-  useEffect(() => {
-    async function fetchAffiliate() {
-      try {
-        const data = await GetAffiliates();
-        setAffiliates(data);
-      } catch (error) {
-        console.error('Error fetching affiliates:', error);
-      }
-    }
-    fetchAffiliate();
-  }, []);
-
+  const { affiliates } = useContext(CacheContext);
   return (
     <Autocomplete
       isRequired

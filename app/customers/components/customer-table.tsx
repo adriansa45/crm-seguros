@@ -25,7 +25,6 @@ export function CustomerTable({
   async function fetchCustomers() {
     try {
       const data = await GetCustomers(offset || 0, 15);
-      console.log(data)
       setCustomers(data as any);
     } catch (error) {
       console.error('Error fetching states:', error);
@@ -57,7 +56,7 @@ export function CustomerTable({
           </TableHeader>
           <TableBody>
             {customers.map((customer) => (
-              <CustomerRow key={customer.customer_id} customer={customer} />
+              <CustomerRow customer={customer} />
             ))}
           </TableBody>
         </Table>
@@ -87,10 +86,9 @@ function formatPhoneNumber(phoneNumberString: string) {
 
 
 function CustomerRow({ customer }: { customer: Customer }) {
-  const userId = customer.customer_id;
 
   return (
-    <TableRow>
+    <TableRow key={customer.customer_id}>
       <TableCell className="font-medium">
         <div className='grid'>
           <p>{customer.name + " " + customer.last_name}</p>
