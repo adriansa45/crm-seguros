@@ -1,5 +1,6 @@
 "use client"
 
+import { CacheProvider } from "@/lib/cacheContext";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from 'sonner'
 
@@ -10,8 +11,10 @@ export default function Providers({
 }) {
     return (
         <NextUIProvider>
-            <Toaster richColors position="bottom-center" />
-            {children}
+            <CacheProvider>
+                <Toaster richColors position="bottom-center" />
+                {children}
+            </CacheProvider>
         </NextUIProvider>
     );
 }
