@@ -9,12 +9,14 @@ export default function AffiliateInput({
 }: { AffiliateId?: number | null } = {}) {
 
   const { affiliates } = useContext(CacheContext);
+
   return (
     <Autocomplete
       isRequired
       name='affiliate_id'
       label={'Seleciona una afilación'}
-      selectedKey={AffiliateId}
+      isDisabled={!affiliates}
+      defaultSelectedKey={AffiliateId?.toString()}
     >
       {affiliates.map((op) => (
         <AutocompleteItem key={op.affiliate_id} value={op.name}>

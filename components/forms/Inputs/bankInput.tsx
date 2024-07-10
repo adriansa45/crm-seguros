@@ -14,6 +14,7 @@ export default function BankInput({
     isRequired
       name='bank_id'
       label={'Seleciona un banco'}
+      defaultSelectedKey={BankId?.toString()}
     >
       {banks.map((op) => (
         <AutocompleteItem key={op.bank_id} value={op.name}>

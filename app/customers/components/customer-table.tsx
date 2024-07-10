@@ -13,6 +13,9 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { GetCustomers } from '@/lib/actions';
 import { Customer } from '@/lib/type';
+import { Chip } from '@nextui-org/react';
+import { IconMapPin, IconMapPinFilled, IconPhone, IconPhoneFilled, IconUserFilled } from '@tabler/icons-react';
+import CustomerModal from '@/components/forms/Customers';
 
 export function CustomerTable({
   offset
@@ -91,9 +94,9 @@ function CustomerRow({ customer }: { customer: Customer }) {
     <TableRow key={customer.customer_id}>
       <TableCell className="font-medium">
         <div className='grid'>
-          <p>{customer.name + " " + customer.last_name}</p>
-          <p>{formatPhoneNumber(customer.phone_number)}</p>
-          <p>{customer.neighborhoods.cities.name + ", " + customer.neighborhoods.name + ", " +customer.address}</p>
+          <p className='flex items-center'><IconUserFilled size={16} />{customer.name + " " + customer.last_name}</p>
+          <p className='flex items-center'><IconPhoneFilled size={16} /> {formatPhoneNumber(customer.phone_number)}</p>
+          <p className='flex items-center'><IconMapPinFilled size={16}/> {customer.neighborhoods.cities.name + ", " + customer.neighborhoods.name + ", " +customer.address}</p>
         </div>
       </TableCell>
       <TableCell className="hidden md:table-cell">
@@ -104,24 +107,18 @@ function CustomerRow({ customer }: { customer: Customer }) {
       </div>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-      <div className='grid grid-cols-2'>
+      <div className='grid gap-1'>
           {customer.reference_contacts.map((ref) => (
-            <>
-            <p>{ref.name}</p>
-            <p>{formatPhoneNumber(ref.phone_number)}</p>
-            </>
+            <Chip color="primary">
+              <div className='flex gap-4 justify-between'>
+              <span>{ref.name}</span>
+              <span>{formatPhoneNumber(ref.phone_number)} </span>
+              </div>
+              </Chip>
           ))}
       </div></TableCell>
       <TableCell>
-        <Button
-          className="w-full"
-          size="sm"
-          variant="outline"
-          // formAction={deleteUserWithId}
-          disabled
-        >
-          Ver más
-        </Button>
+        <CustomerModal customerData={customer}/>
       </TableCell>
     </TableRow>
   );
