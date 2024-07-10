@@ -14,7 +14,7 @@ export default function AffiliateInput({
     <Autocomplete
       isRequired
       name='affiliate_id'
-      label={'Seleciona una afilación'}
+      label={'Afilación'}
       isDisabled={!affiliates}
       defaultSelectedKey={AffiliateId?.toString()}
     >

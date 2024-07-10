@@ -13,7 +13,7 @@ export default function BankInput({
     <Autocomplete
     isRequired
       name='bank_id'
-      label={'Seleciona un banco'}
+      label={'Banco'}
       defaultSelectedKey={BankId?.toString()}
     >
       {banks.map((op) => (

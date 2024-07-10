@@ -14,7 +14,7 @@ export default function PayrollInput({
     <Autocomplete
       isRequired
       name='payroll_id'
-      label={'Seleciona una nómina'}
+      label={'Nómina'}
       defaultSelectedKey={PayrollId?.toString()}
     >
       {payrolls.map((op) => (
