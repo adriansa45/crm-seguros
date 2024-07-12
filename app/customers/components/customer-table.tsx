@@ -9,11 +9,10 @@ import {
   Table
 } from '@/components/ui/table';
 import React, { useState, useEffect} from 'react';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { GetCustomers } from '@/lib/actions';
 import { Customer } from '@/lib/type';
-import { Chip } from '@nextui-org/react';
+import { Button, Chip } from '@nextui-org/react';
 import { IconMapPin, IconMapPinFilled, IconPhone, IconPhoneFilled, IconUserFilled } from '@tabler/icons-react';
 import CustomerModal from '@/components/forms/Customers';
 
@@ -67,7 +66,6 @@ export function CustomerTable({
       {offset !== null && (
         <Button
           className="mt-4 w-40"
-          variant="secondary"
           onClick={() => onClick()}
         >
           Siguiente
@@ -119,6 +117,9 @@ function CustomerRow({ customer }: { customer: Customer }) {
       </div></TableCell>
       <TableCell>
         <CustomerModal customerData={customer}/>
+        <Button color="primary" className="w-full min-w-32" size="sm" variant='ghost'>
+        Ver créditos
+       </Button>
       </TableCell>
     </TableRow>
   );

@@ -1,4 +1,5 @@
 'use server';
+import { revalidatePath } from 'next/cache';
 import prisma from './db';
 
 export async function CreateCustomer(customer: FormData) {
@@ -98,9 +99,22 @@ export async function EditCustomer(customer: FormData) {
   if (!neighborhood) {
     throw new Error('Neighborhood not found');
   }
+
+  const customerId = Number(customer.get('customer_id')) ?? 0;
+  console.log(customer.get('customer_id'))
+
+  // Verificar si el registro existe antes de intentar la actualización
+  const existingCustomer = await prisma.customers.findUnique({
+    where: { customer_id: customerId }
+  });
+  
+  if (!existingCustomer) {
+    throw new Error(`Customer with ID ${customerId} does not exist.`);
+  }
+
   await prisma.customers.update({
-    where:{
-      customer_id: Number(customer.get('customer_id')) ?? 0
+    where: {
+      customer_id: customerId
     },
     data: {
       name: customer.get('name')?.toString() ?? '',
@@ -113,23 +127,21 @@ export async function EditCustomer(customer: FormData) {
       bank_id: bank.bank_id,
       user_id: 1,
       reference_contacts: {
-        deleteMany:{
-          customer_id: Number(customer.get('customer_id')) ?? 0
+        deleteMany: {
+          customer_id: customerId
         },
-        createMany: {
-          data: [
-            {
-              name: customer.get('reference1_name')?.toString() ?? '',
-              last_name: '',
-              phone_number: customer.get('reference1_phone')?.toString() ?? ''
-            },
-            {
-              name: customer.get('reference2_name')?.toString() ?? '',
-              last_name: '',
-              phone_number: customer.get('reference2_phone')?.toString() ?? ''
-            }
-          ]
-        }
+        create: [
+          {
+            name: customer.get('reference1_name')?.toString() ?? '',
+            last_name: '',
+            phone_number: customer.get('reference1_phone')?.toString() ?? ''
+          },
+          {
+            name: customer.get('reference2_name')?.toString() ?? '',
+            last_name: '',
+            phone_number: customer.get('reference2_phone')?.toString() ?? ''
+          }
+        ]
       }
     }
   });

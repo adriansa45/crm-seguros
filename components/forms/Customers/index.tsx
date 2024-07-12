@@ -17,10 +17,14 @@ import AddressInput from '../AddressInputs';
 import {CreateCustomer, EditCustomer} from '@/lib/actions';
 import { toast } from 'sonner'
 import { Customer } from '@/lib/type';
+import { useRouter } from 'next/navigation';
 
 export default function CustomerModal({customerData} : {customerData?: Customer}) {
+  const router = useRouter();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  
   const submitCustomer = async (customer: FormData) => {
+    
     try{
       if (customerData?.customer_id){
         await EditCustomer(customer);
@@ -30,17 +34,19 @@ export default function CustomerModal({customerData} : {customerData?: Customer}
         toast.success('Cliente creado con éxito.')
       }
       
-      onClose();
+      
     }catch{
       toast.error('Ocurrió un error mientras se generaba el cliente.')
     }
+    router.push("/customers");
+    onClose();
   }
 
   return (
     <>
       {
       customerData ? 
-      <Button color="primary" className="w-full min-w-32" size="sm" variant='ghost' onPress={onOpen}>
+      <Button className="w-full min-w-32 mb-1" size="sm" variant='ghost' onPress={onOpen}>
         Ver cliente
        </Button>
       :
@@ -57,7 +63,7 @@ export default function CustomerModal({customerData} : {customerData?: Customer}
                 Crear un cliente
               </ModalHeader>
               <form action={submitCustomer} >
-              <input type='hidden' value={customerData?.customer_id}/>
+              <input type='hidden' name="customer_id" value={customerData?.customer_id}/>
               <ModalBody className="grid gap-2 grid-cols-2">
                   <h3 className="col-span-2">Datos personales</h3>
                   <Input label="Nombre" name='name' isRequired defaultValue={customerData?.name}/>
