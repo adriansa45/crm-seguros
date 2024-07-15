@@ -46,6 +46,13 @@ export async function CreateCustomer(customer: FormData) {
       affiliate_id: affiliate.affiliate_id,
       bank_id: bank.bank_id,
       user_id: 1,
+      credits:{
+        create:{
+          rate: Number(customer.get('rate')) ?? 0,
+          amount: Number(customer.get('amount'))?? 0,
+          lapse: Number(customer.get('lapse')) ?? 0,
+        }
+      },
       reference_contacts: {
         createMany: {
           data: [
@@ -126,6 +133,16 @@ export async function EditCustomer(customer: FormData) {
       affiliate_id: affiliate.affiliate_id,
       bank_id: bank.bank_id,
       user_id: 1,
+      credits: {
+        deleteMany: {
+          customer_id: customerId
+        },
+        create:{
+          rate: Number(customer.get('rate')) ?? 0,
+          amount: Number(customer.get('amount'))?? 0,
+          lapse: Number(customer.get('lapse')) ?? 0,
+        }
+      },
       reference_contacts: {
         deleteMany: {
           customer_id: customerId

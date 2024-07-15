@@ -86,6 +86,11 @@ export default function CustomerModal({customerData} : {customerData?: Customer}
                   <Input label="Teléfono contacto 1" name='reference1_phone' isRequired defaultValue={customerData?.reference_contacts[0]?.phone_number}/>
                   <Input label="Nombre contacto 2" name='reference2_name' isRequired defaultValue={customerData?.reference_contacts[1]?.name}/>
                   <Input label="Teléfono contacto 2" name='reference2_phone' isRequired defaultValue={customerData?.reference_contacts[1]?.phone_number}/>
+                  <Divider className="col-span-2" />
+                  <h3 className="col-span-2">Crédito</h3>
+                  <Input label="Plazo (Meses)" name='lapse' isRequired type='number' defaultValue={customerData?.credits[0]?.lapse.toString()}/>
+                  <Input label="Monto" name='amount' isRequired type='number' defaultValue={customerData?.credits[0]?.amount.toString()}/>
+                  <Input label="Interés" name='rate' isRequired type='number' defaultValue={customerData?.credits[0]?.rate.toString()}/>
               </ModalBody>
               <ModalFooter>
                 <Button variant="light" onPress={onClose}>

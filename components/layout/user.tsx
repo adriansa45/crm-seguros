@@ -15,7 +15,7 @@ export async function User() {
           await signIn('github');
         }}
       >
-        <Button variant="outline">Sign In</Button>
+        <Button variant="outline">Inciar sesión</Button>
       </form>
     );
   }
@@ -28,7 +28,7 @@ export async function User() {
           await signOut();
         }}
       >
-        <Button variant="outline">Sign Out</Button>
+        <Button variant="outline">Cerrar sesión</Button>
       </form>
       <Image
         className="h-8 w-8 rounded-full"

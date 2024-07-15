@@ -117,9 +117,6 @@ function CustomerRow({ customer }: { customer: Customer }) {
       </div></TableCell>
       <TableCell>
         <CustomerModal customerData={customer}/>
-        <Button color="primary" className="w-full min-w-32" size="sm" variant='ghost'>
-        Ver créditos
-       </Button>
       </TableCell>
     </TableRow>
   );
